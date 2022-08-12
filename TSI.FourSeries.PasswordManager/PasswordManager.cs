@@ -94,7 +94,7 @@ namespace TSI.FourSeries.PasswordManager
         public void Initialize(string filePath)
         {
             FileLocation = filePath;
-            Debug.Trace($"***StringProcessor - Initialize. FileLocation: {FileLocation}");
+            Debug.Trace($"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.Initialize\tFileLocation: {FileLocation}");
 
             AutoWriteTimer.Interval = AutoWriteTimeout;
             AutoWriteTimer.Elapsed += OnTimerElapsed;
@@ -114,7 +114,7 @@ namespace TSI.FourSeries.PasswordManager
                 }
                 catch (Exception ex)
                 {
-                    CrestronConsole.PrintLine(Constants.InitializeExceptionMessage, ex.Message);
+                    CrestronConsole.PrintLine($"{Constants.InitializeExceptionMessage}-{ex.Message}");
                 }
             }
         }
@@ -122,7 +122,7 @@ namespace TSI.FourSeries.PasswordManager
         private void CreateDefaultFile()
         {
             string jsonTemplate = Constants.DefaultFileContents;
-            Debug.Trace($"Default File Contents Created: {jsonTemplate}");
+            Debug.Trace($"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.CreateDefaultFile - Default File Contents Created: {jsonTemplate}");
 
             FileOperations.WriteFile(FileLocation, jsonTemplate);
 
@@ -134,6 +134,7 @@ namespace TSI.FourSeries.PasswordManager
         //called from Simpl+
         public void ReadFile()
         {
+            
             if (AutoWriteTimer.Enabled)
             {
                 AutoWriteTimer.Stop();
@@ -165,7 +166,7 @@ namespace TSI.FourSeries.PasswordManager
             }
             catch (Exception ex)
             {
-                CrestronConsole.PrintLine(Constants.FileReadErrorMessage, ex.Message);
+                CrestronConsole.PrintLine($"{Constants.FileReadErrorMessage}-{ex.Message}");
             }
         }
 
@@ -208,7 +209,7 @@ namespace TSI.FourSeries.PasswordManager
             }
             catch (Exception ex)
             {
-                CrestronConsole.PrintLine(Constants.DeserializeErrorMessage, ex.Message);
+                CrestronConsole.PrintLine($"{Constants.DeserializeErrorMessage}-{ex.Message}");
             }
 
             //EventArg creation and EventHandler Call
@@ -227,7 +228,7 @@ namespace TSI.FourSeries.PasswordManager
             }
             catch (Exception ex)
             {
-                CrestronConsole.PrintLine(Constants.DeserializationEventErrorMessage, ex.Message);
+                CrestronConsole.PrintLine($"{Constants.DeserializationEventErrorMessage}-{ex.Message}");
             }
         }
 
@@ -302,7 +303,7 @@ namespace TSI.FourSeries.PasswordManager
             }
             catch (Exception ex)
             {
-                CrestronConsole.PrintLine(Constants.UpdateListErrorMessage, Index, ex.Message);
+                CrestronConsole.PrintLine($"{Constants.UpdateListErrorMessage} @ Index: {Index} - {ex.Message}");
             }
 
 

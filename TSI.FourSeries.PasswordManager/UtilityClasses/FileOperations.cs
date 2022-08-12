@@ -12,6 +12,7 @@ namespace TSI.FourSeries.FileUtilities
     {
         private static CCriticalSection _fileLock = new CCriticalSection();
         public static Boolean fileExists = false;
+        private static string _assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
         public static bool CheckFileExists(string filePath)
         {
@@ -49,13 +50,13 @@ namespace TSI.FourSeries.FileUtilities
                 }
                 else
                 {
-                    ErrorLog.Error(Constants.FileNotFoundMessage);
+                    ErrorLog.Error($"{_assemblyName}{Constants.FileNotFoundMessage}");
                     return string.Empty;
                 }
             }
             catch (Exception e)
             {
-                Debug.Trace($"FileOperations.ReadFile() Error: {e.Message}");
+                Debug.Trace($"{_assemblyName}.FileOperations.ReadFile() Error: {e.Message}");
                 return string.Empty;
             }
             finally
@@ -72,12 +73,12 @@ namespace TSI.FourSeries.FileUtilities
             {
                 _fileLock.Enter();
                 fs.Write(payload, Encoding.UTF8);
-                Debug.Trace($"{Constants.WriteFilePayloadReport} {payload}");
+                Debug.Trace($"{_assemblyName}{Constants.WriteFilePayloadReport} {payload}");
             }
             catch (Exception e)
             {
-                CrestronConsole.PrintLine(Constants.WriteFileExceptionStackTrace, e.StackTrace);
-                Debug.ReportDebugToLog($"{Constants.WriteFileExceptionStackTrace} {e.Message}", 3);
+                CrestronConsole.PrintLine($"{_assemblyName}{Constants.WriteFileExceptionStackTrace} {e.StackTrace}");
+                Debug.ReportDebugToLog($"{_assemblyName}{Constants.WriteFileExceptionStackTrace} {e.Message}", 3);
             }
             finally
             {
